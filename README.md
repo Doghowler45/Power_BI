@@ -48,7 +48,7 @@ Each visual's README, inside its `.zip`, lists its fields, its Format pane optio
 | Visual | Version | What it does |
 | --- | --- | --- |
 | [Route Flow Map](RouteFlowMap.pbiviz) | 1.2.1.0 | Draws origin-to-destination routes between countries on a world map, with line width set by a measure such as revenue. Countries are matched by name or ISO code; no latitude or longitude is needed and no internet access is used. |
-| [Manual Table](ManualTable.pbiviz) | 1.7.1.0 | A table you type numbers and text into yourself while building the report. What you type is saved with the report, and people viewing the published report see it read-only. No data fields are needed. |
+| [Manual Table](ManualTable.pbiviz) | 1.8.0.0 | A table you type numbers and text into yourself while building the report. What you type is saved with the report, and people viewing the published report see it read-only. No data fields are needed. |
 | [Navigation Menu](NavigationMenu.pbiviz) | 1.0.0.0 | A navigation header with dropdown sub-sections, set up from a table of sections and pages. Choosing an entry either selects it for a Power BI button to go to, or opens the page in a new browser tab. |
 
 ## Source
