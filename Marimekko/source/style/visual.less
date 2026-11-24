@@ -1,0 +1,43 @@
+svg.marimekko {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    text {
+        pointer-events: none;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .segment {
+        cursor: pointer;
+        transition: opacity 120ms ease-out;
+    }
+
+    // Hovering a segment: its series stays strong in every column and the rest step back.
+    &.hovering .segment {
+        opacity: 0.45;
+    }
+
+    &.hovering .segment.related {
+        opacity: 1;
+    }
+
+    &.hasSelection .segment:not(.selected) {
+        opacity: 0.25;
+    }
+
+    &.hasSelection.hovering .segment.active {
+        opacity: 1;
+    }
+
+    .legendLabel.active {
+        font-weight: 700;
+        fill: #0B0B0B;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .segment {
+            transition: none;
+        }
+    }
+}

@@ -1,0 +1,207 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Category",
+            "description": "What to rank: customers, products, markets",
+            "name": "category",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Values",
+            "description": "The measure to total, such as revenue. Use margin to see where profit is given back",
+            "name": "value",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Count",
+            "description": "Optional, for grouped data: how many customers each row stands for. Lets a few hundred rows describe millions of customers",
+            "name": "count",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tooltips",
+            "description": "Optional. More measures to show on hover",
+            "name": "tooltips",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "bands": {
+            "properties": {
+                "aThreshold": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "bThreshold": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "labels": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "hue": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "green",
+                                "displayName": "Green"
+                            },
+                            {
+                                "value": "teal",
+                                "displayName": "Teal"
+                            },
+                            {
+                                "value": "blue",
+                                "displayName": "Blue"
+                            },
+                            {
+                                "value": "purple",
+                                "displayName": "Purple"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "callout": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "count": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "percent": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "bars": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "labels": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "noun": {
+                    "type": {
+                        "text": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "category": {
+                        "max": 1
+                    },
+                    "value": {
+                        "max": 1
+                    },
+                    "count": {
+                        "max": 1
+                    },
+                    "tooltips": {
+                        "max": 5
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "category"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 30000
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "value"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "count"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "tooltips"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

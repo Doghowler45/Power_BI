@@ -1,0 +1,93 @@
+.varianceCards {
+    box-sizing: border-box;
+    display: grid;
+    gap: 10px;
+    overflow: auto;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    &.empty {
+        display: block;
+    }
+
+    .card {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 0;
+        padding: 9px 12px 8px;
+        border: 1px solid transparent;
+        overflow: hidden;
+    }
+
+    .top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        line-height: 1.5;
+    }
+
+    .title {
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .note {
+        flex: none;
+        opacity: 0.65;
+        font-size: 0.9em;
+    }
+
+    .value {
+        font-weight: 600;
+        line-height: 1.35;
+        white-space: nowrap;
+    }
+
+    .comparison {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        line-height: 1.6;
+        white-space: nowrap;
+    }
+
+    .code {
+        min-width: 2.6em;
+        opacity: 0.75;
+    }
+
+    .arrow {
+        font-size: 0.7em;
+    }
+
+    .absolute,
+    .percent {
+        font-weight: 600;
+    }
+
+    svg.spark {
+        display: block;
+        flex: 1 1 0;
+        width: 100%;
+        min-height: 0;
+        max-height: 70px;
+        margin-top: 6px;
+        shape-rendering: crispEdges;
+    }
+
+    .message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 0 16px;
+        text-align: center;
+        color: #6B6B68;
+        font-size: 12px;
+    }
+}

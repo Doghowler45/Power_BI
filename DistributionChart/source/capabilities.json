@@ -1,0 +1,164 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Points",
+            "description": "One point for each value: customers, orders, products",
+            "name": "points",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Group",
+            "description": "Optional. One row of the chart for each value, such as segment",
+            "name": "group",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Values",
+            "description": "The measure whose spread you want to see, such as margin %",
+            "name": "value",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "boxes": {
+            "properties": {
+                "hue": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "green",
+                                "displayName": "Green"
+                            },
+                            {
+                                "value": "teal",
+                                "displayName": "Teal"
+                            },
+                            {
+                                "value": "blue",
+                                "displayName": "Blue"
+                            },
+                            {
+                                "value": "purple",
+                                "displayName": "Purple"
+                            }
+                        ]
+                    }
+                },
+                "sort": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "median",
+                                "displayName": "Median, highest first"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "Data order"
+                            }
+                        ]
+                    }
+                },
+                "points": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "labels": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "points": {
+                        "max": 1
+                    },
+                    "group": {
+                        "max": 1
+                    },
+                    "value": {
+                        "max": 1
+                    }
+                }
+            ],
+            "table": {
+                "rows": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "group"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "points"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "value"
+                            }
+                        }
+                    ],
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 10000
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

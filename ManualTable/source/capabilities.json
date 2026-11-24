@@ -1,0 +1,265 @@
+{
+    "dataRoles":  [
+
+                  ],
+    "dataViewMappings":  [
+
+                         ],
+    "objects":  {
+                    "content":  {
+                                    "properties":  {
+                                                       "data":  {
+                                                                    "type":  {
+                                                                                 "text":  true
+                                                                             }
+                                                                }
+                                                   }
+                                },
+                    "headerStyle":  {
+                                        "properties":  {
+                                                           "fontFamily":  {
+                                                                              "type":  {
+                                                                                           "formatting":  {
+                                                                                                              "fontFamily":  true
+                                                                                                          }
+                                                                                       }
+                                                                          },
+                                                           "fontSize":  {
+                                                                            "type":  {
+                                                                                         "formatting":  {
+                                                                                                            "fontSize":  true
+                                                                                                        }
+                                                                                     }
+                                                                        },
+                                                           "bold":  {
+                                                                        "type":  {
+                                                                                     "bool":  true
+                                                                                 }
+                                                                    },
+                                                           "italic":  {
+                                                                          "type":  {
+                                                                                       "bool":  true
+                                                                                   }
+                                                                      },
+                                                           "underline":  {
+                                                                             "type":  {
+                                                                                          "bool":  true
+                                                                                      }
+                                                                         },
+                                                           "color":  {
+                                                                         "type":  {
+                                                                                      "fill":  {
+                                                                                                   "solid":  {
+                                                                                                                 "color":  true
+                                                                                                             }
+                                                                                               }
+                                                                                  }
+                                                                     },
+                                                           "align":  {
+                                                                         "type":  {
+                                                                                      "enumeration":  [
+                                                                                                          {
+                                                                                                              "value":  "auto",
+                                                                                                              "displayName":  "Auto (text left, numbers right)"
+                                                                                                          },
+                                                                                                          {
+                                                                                                              "value":  "left",
+                                                                                                              "displayName":  "Left"
+                                                                                                          },
+                                                                                                          {
+                                                                                                              "value":  "center",
+                                                                                                              "displayName":  "Centre"
+                                                                                                          },
+                                                                                                          {
+                                                                                                              "value":  "right",
+                                                                                                              "displayName":  "Right"
+                                                                                                          }
+                                                                                                      ]
+                                                                                  }
+                                                                     },
+                                                           "fill":  {
+                                                                        "type":  {
+                                                                                     "bool":  true
+                                                                                 }
+                                                                    },
+                                                           "background":  {
+                                                                              "type":  {
+                                                                                           "fill":  {
+                                                                                                        "solid":  {
+                                                                                                                      "color":  true
+                                                                                                                  }
+                                                                                                    }
+                                                                                       }
+                                                                          }
+                                                       }
+                                    },
+                    "valueStyle":  {
+                                       "properties":  {
+                                                          "fontFamily":  {
+                                                                             "type":  {
+                                                                                          "formatting":  {
+                                                                                                             "fontFamily":  true
+                                                                                                         }
+                                                                                      }
+                                                                         },
+                                                          "fontSize":  {
+                                                                           "type":  {
+                                                                                        "formatting":  {
+                                                                                                           "fontSize":  true
+                                                                                                       }
+                                                                                    }
+                                                                       },
+                                                          "bold":  {
+                                                                       "type":  {
+                                                                                    "bool":  true
+                                                                                }
+                                                                   },
+                                                          "italic":  {
+                                                                         "type":  {
+                                                                                      "bool":  true
+                                                                                  }
+                                                                     },
+                                                          "underline":  {
+                                                                            "type":  {
+                                                                                         "bool":  true
+                                                                                     }
+                                                                        },
+                                                          "color":  {
+                                                                        "type":  {
+                                                                                     "fill":  {
+                                                                                                  "solid":  {
+                                                                                                                "color":  true
+                                                                                                            }
+                                                                                              }
+                                                                                 }
+                                                                    },
+                                                          "align":  {
+                                                                        "type":  {
+                                                                                     "enumeration":  [
+                                                                                                         {
+                                                                                                             "value":  "auto",
+                                                                                                             "displayName":  "Auto (text left, numbers right)"
+                                                                                                         },
+                                                                                                         {
+                                                                                                             "value":  "left",
+                                                                                                             "displayName":  "Left"
+                                                                                                         },
+                                                                                                         {
+                                                                                                             "value":  "center",
+                                                                                                             "displayName":  "Centre"
+                                                                                                         },
+                                                                                                         {
+                                                                                                             "value":  "right",
+                                                                                                             "displayName":  "Right"
+                                                                                                         }
+                                                                                                     ]
+                                                                                 }
+                                                                    },
+                                                          "fill":  {
+                                                                       "type":  {
+                                                                                    "bool":  true
+                                                                                }
+                                                                   },
+                                                          "background":  {
+                                                                             "type":  {
+                                                                                          "fill":  {
+                                                                                                       "solid":  {
+                                                                                                                     "color":  true
+                                                                                                                 }
+                                                                                                   }
+                                                                                      }
+                                                                         },
+                                                          "banding":  {
+                                                                          "type":  {
+                                                                                       "bool":  true
+                                                                                   }
+                                                                      },
+                                                          "bandColor":  {
+                                                                            "type":  {
+                                                                                         "fill":  {
+                                                                                                      "solid":  {
+                                                                                                                    "color":  true
+                                                                                                                }
+                                                                                                  }
+                                                                                     }
+                                                                        }
+                                                      }
+                                   },
+                    "numbers":  {
+                                    "properties":  {
+                                                       "decimals":  {
+                                                                        "type":  {
+                                                                                     "numeric":  true
+                                                                                 }
+                                                                    },
+                                                       "brackets":  {
+                                                                        "type":  {
+                                                                                     "bool":  true
+                                                                                 }
+                                                                    },
+                                                       "prefix":  {
+                                                                      "type":  {
+                                                                                   "text":  true
+                                                                               }
+                                                                  }
+                                                   }
+                                },
+                    "totals":  {
+                                   "properties":  {
+                                                      "show":  {
+                                                                   "type":  {
+                                                                                "bool":  true
+                                                                            }
+                                                               },
+                                                      "label":  {
+                                                                    "type":  {
+                                                                                 "text":  true
+                                                                             }
+                                                                }
+                                                  }
+                               },
+                    "editing":  {
+                                    "properties":  {
+                                                       "allowService":  {
+                                                                            "type":  {
+                                                                                         "bool":  true
+                                                                                     }
+                                                                        }
+                                                   }
+                                },
+                    "grid":  {
+                                 "properties":  {
+                                                    "show":  {
+                                                                 "type":  {
+                                                                              "bool":  true
+                                                                          }
+                                                             },
+                                                    "color":  {
+                                                                  "type":  {
+                                                                               "fill":  {
+                                                                                            "solid":  {
+                                                                                                          "color":  true
+                                                                                                      }
+                                                                                        }
+                                                                           }
+                                                              },
+                                                    "width":  {
+                                                                  "type":  {
+                                                                               "numeric":  true
+                                                                           }
+                                                              },
+                                                    "rowPadding":  {
+                                                                       "type":  {
+                                                                                    "numeric":  true
+                                                                                }
+                                                                   }
+                                                }
+                             }
+                },
+    "supportsLandingPage":  true,
+    "supportsEmptyDataView":  true,
+    "suppressDefaultTitle":  true,
+    "privileges":  [
+
+                   ]
+}

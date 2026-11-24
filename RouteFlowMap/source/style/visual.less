@@ -1,0 +1,34 @@
+svg.routeFlowMap {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    .labels text,
+    .messages text {
+        paint-order: stroke;
+        stroke: #ffffff;
+        stroke-width: 3px;
+        stroke-linejoin: round;
+        pointer-events: none;
+    }
+
+    .legend,
+    .messages,
+    .card,
+    .sphere,
+    .shade {
+        pointer-events: none;
+    }
+
+    .controls text {
+        pointer-events: none;
+    }
+
+    .controls .button:hover rect {
+        fill: #f1f3f0;
+    }
+
+    .markers circle {
+        cursor: default;
+    }
+}

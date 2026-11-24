@@ -1,0 +1,170 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Months",
+            "description": "What runs across: the months of the year",
+            "name": "month",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Years",
+            "description": "One line for each year",
+            "name": "series",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Values",
+            "description": "The measure, such as revenue",
+            "name": "value",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tooltips",
+            "description": "Optional. More measures to show on hover",
+            "name": "tooltips",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "lines": {
+            "properties": {
+                "mode": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "monthly",
+                                "displayName": "Each month"
+                            },
+                            {
+                                "value": "cumulative",
+                                "displayName": "Running total through the year"
+                            }
+                        ]
+                    }
+                },
+                "band": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "zero": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "color": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "labels": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "month": {
+                        "max": 1
+                    },
+                    "series": {
+                        "max": 1
+                    },
+                    "value": {
+                        "max": 1
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "month"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 60
+                        }
+                    }
+                },
+                "values": {
+                    "group": {
+                        "by": "series",
+                        "select": [
+                            {
+                                "bind": {
+                                    "to": "value"
+                                }
+                            },
+                            {
+                                "for": {
+                                    "in": "tooltips"
+                                }
+                            }
+                        ],
+                        "dataReductionAlgorithm": {
+                            "top": {
+                                "count": 40
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

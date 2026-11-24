@@ -1,0 +1,106 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Origin country",
+            "description": "Country the route starts in: a name such as New Zealand, or an ISO code such as NZ or NZL",
+            "name": "origin",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Destination country",
+            "description": "Country the route ends in: a name such as Japan, or an ISO code such as JP or JPN",
+            "name": "destination",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Revenue",
+            "description": "Measure that sets the width of each route",
+            "name": "revenue",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "routes": {
+            "properties": {
+                "color": { "type": { "fill": { "solid": { "color": true } } } },
+                "minWidth": { "type": { "numeric": true } },
+                "maxWidth": { "type": { "numeric": true } },
+                "scaleMax": { "type": { "numeric": true } },
+                "opacity": { "type": { "numeric": true } },
+                "curvature": { "type": { "numeric": true } },
+                "fade": { "type": { "bool": true } }
+            }
+        },
+        "hover": {
+            "properties": {
+                "card": { "type": { "bool": true } },
+                "highlight": { "type": { "bool": true } },
+                "tooltip": { "type": { "bool": true } }
+            }
+        },
+        "map": {
+            "properties": {
+                "projection": {
+                    "type": {
+                        "enumeration": [
+                            { "value": "globe", "displayName": "Globe (flattens as you zoom in)" },
+                            { "value": "flat", "displayName": "Flat map (shows every route)" }
+                        ]
+                    }
+                },
+                "oceanColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "zoomButtons": { "type": { "bool": true } },
+                "landColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "activeColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "borderColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "markerColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "zoomToRoutes": { "type": { "bool": true } },
+                "allowZoom": { "type": { "bool": true } }
+            }
+        },
+        "labels": {
+            "properties": {
+                "show": { "type": { "bool": true } },
+                "fontSize": { "type": { "numeric": true } },
+                "color": { "type": { "fill": { "solid": { "color": true } } } }
+            }
+        },
+        "legend": {
+            "properties": {
+                "show": { "type": { "bool": true } }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "origin": { "max": 1 },
+                    "destination": { "max": 1 },
+                    "revenue": { "max": 1 }
+                }
+            ],
+            "table": {
+                "rows": {
+                    "select": [
+                        { "for": { "in": "origin" } },
+                        { "for": { "in": "destination" } },
+                        { "for": { "in": "revenue" } }
+                    ],
+                    "dataReductionAlgorithm": {
+                        "top": { "count": 10000 }
+                    }
+                }
+            }
+        }
+    ],
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

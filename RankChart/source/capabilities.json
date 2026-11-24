@@ -1,0 +1,187 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Periods",
+            "description": "What runs across: years, quarters, months",
+            "name": "period",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Ranked",
+            "description": "What is ranked: customers, products, markets",
+            "name": "series",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Values",
+            "description": "The measure to rank by, such as revenue",
+            "name": "value",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tooltips",
+            "description": "Optional. More measures to show on hover",
+            "name": "tooltips",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "ranking": {
+            "properties": {
+                "topCount": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "lowestFirst": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "colours": {
+            "properties": {
+                "mode": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "movement",
+                                "displayName": "Movement (up, down, same)"
+                            },
+                            {
+                                "value": "entity",
+                                "displayName": "One colour each"
+                            }
+                        ]
+                    }
+                },
+                "source": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "builtIn",
+                                "displayName": "Built-in (colour-blind safe)"
+                            },
+                            {
+                                "value": "theme",
+                                "displayName": "Report theme"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "labels": {
+            "properties": {
+                "values": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "period": {
+                        "max": 1
+                    },
+                    "series": {
+                        "max": 1
+                    },
+                    "value": {
+                        "max": 1
+                    },
+                    "tooltips": {
+                        "max": 5
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "period"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 60
+                        }
+                    }
+                },
+                "values": {
+                    "group": {
+                        "by": "series",
+                        "select": [
+                            {
+                                "bind": {
+                                    "to": "value"
+                                }
+                            },
+                            {
+                                "for": {
+                                    "in": "tooltips"
+                                }
+                            }
+                        ],
+                        "dataReductionAlgorithm": {
+                            "top": {
+                                "count": 300
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

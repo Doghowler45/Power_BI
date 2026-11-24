@@ -1,0 +1,400 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Category",
+            "description": "What to break the values down by: months, divisions, products, cost lines",
+            "name": "category",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Group",
+            "description": "Optional. Splits the chart into one small chart per value (small multiples), or stacks the values inside each bar",
+            "name": "group",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Actual",
+            "description": "The actual result (AC)",
+            "name": "actual",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Previous year",
+            "description": "The same measure for the previous year (PY)",
+            "name": "previousYear",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Plan",
+            "description": "The plan or budget (PL)",
+            "name": "plan",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Forecast",
+            "description": "The forecast (FC). Shown in place of actual for categories that have no actual yet, such as months still to come",
+            "name": "forecast",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Comment",
+            "description": "Optional. A text measure that returns a comment for some categories. Commented categories are numbered and the comments listed beside the chart",
+            "name": "comment",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "comparison": {
+            "properties": {
+                "scenario": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto (plan, else previous year)"
+                            },
+                            {
+                                "value": "pl",
+                                "displayName": "Plan"
+                            },
+                            {
+                                "value": "py",
+                                "displayName": "Previous year"
+                            },
+                            {
+                                "value": "fc",
+                                "displayName": "Forecast"
+                            }
+                        ]
+                    }
+                },
+                "higherIsWorse": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "layout": {
+            "properties": {
+                "chartType": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "variance",
+                                "displayName": "Variance charts"
+                            },
+                            {
+                                "value": "waterfall",
+                                "displayName": "Waterfall (bridge)"
+                            }
+                        ]
+                    }
+                },
+                "orientation": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "columns",
+                                "displayName": "Columns (over time)"
+                            },
+                            {
+                                "value": "bars",
+                                "displayName": "Bars (by category)"
+                            }
+                        ]
+                    }
+                },
+                "absolute": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "relative": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "colours": {
+            "properties": {
+                "actual": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "previousYear": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "good": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "bad": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "labels": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "category": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "color": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "groups": {
+            "properties": {
+                "mode": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "multiples",
+                                "displayName": "Small multiples"
+                            },
+                            {
+                                "value": "stacked",
+                                "displayName": "Stacked"
+                            }
+                        ]
+                    }
+                },
+                "sameScale": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "totals": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "label": {
+                    "type": {
+                        "text": true
+                    }
+                }
+            }
+        },
+        "sort": {
+            "properties": {
+                "field": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "none",
+                                "displayName": "Data order"
+                            },
+                            {
+                                "value": "value",
+                                "displayName": "Actual"
+                            },
+                            {
+                                "value": "delta",
+                                "displayName": "Variance"
+                            },
+                            {
+                                "value": "deltaPercent",
+                                "displayName": "Variance %"
+                            }
+                        ]
+                    }
+                },
+                "direction": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "desc",
+                                "displayName": "Largest first"
+                            },
+                            {
+                                "value": "asc",
+                                "displayName": "Smallest first"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "comments": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "category": {
+                        "max": 1
+                    },
+                    "group": {
+                        "max": 1
+                    },
+                    "actual": {
+                        "max": 1
+                    },
+                    "previousYear": {
+                        "max": 1
+                    },
+                    "plan": {
+                        "max": 1
+                    },
+                    "forecast": {
+                        "max": 1
+                    },
+                    "comment": {
+                        "max": 1
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "category"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 500
+                        }
+                    }
+                },
+                "values": {
+                    "group": {
+                        "by": "group",
+                        "select": [
+                            {
+                                "bind": {
+                                    "to": "actual"
+                                }
+                            },
+                            {
+                                "bind": {
+                                    "to": "previousYear"
+                                }
+                            },
+                            {
+                                "bind": {
+                                    "to": "plan"
+                                }
+                            },
+                            {
+                                "bind": {
+                                    "to": "forecast"
+                                }
+                            },
+                            {
+                                "bind": {
+                                    "to": "comment"
+                                }
+                            }
+                        ],
+                        "dataReductionAlgorithm": {
+                            "top": {
+                                "count": 24
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

@@ -1,0 +1,249 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Points",
+            "description": "One point for each value: customers, products",
+            "name": "category",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "X axis",
+            "description": "The measure across, such as revenue",
+            "name": "x",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Y axis",
+            "description": "The measure up the side, such as margin %",
+            "name": "y",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Size",
+            "description": "Optional. A measure for the size of each point",
+            "name": "size",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tooltips",
+            "description": "Optional. More measures to show on hover",
+            "name": "tooltips",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "quadrants": {
+            "properties": {
+                "xLine": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "median",
+                                "displayName": "Median"
+                            },
+                            {
+                                "value": "mean",
+                                "displayName": "Average"
+                            },
+                            {
+                                "value": "value",
+                                "displayName": "A value"
+                            }
+                        ]
+                    }
+                },
+                "xValue": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "yLine": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "median",
+                                "displayName": "Median"
+                            },
+                            {
+                                "value": "mean",
+                                "displayName": "Average"
+                            },
+                            {
+                                "value": "value",
+                                "displayName": "A value"
+                            }
+                        ]
+                    }
+                },
+                "yValue": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "topRight": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "topLeft": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "bottomRight": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "bottomLeft": {
+                    "type": {
+                        "text": true
+                    }
+                }
+            }
+        },
+        "axes": {
+            "properties": {
+                "xLog": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "yLog": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "points": {
+            "properties": {
+                "color": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "labelCount": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "labels": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "category": {
+                        "max": 1
+                    },
+                    "x": {
+                        "max": 1
+                    },
+                    "y": {
+                        "max": 1
+                    },
+                    "size": {
+                        "max": 1
+                    },
+                    "tooltips": {
+                        "max": 5
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "category"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 3000
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "x"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "y"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "size"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "tooltips"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

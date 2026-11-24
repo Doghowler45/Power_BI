@@ -1,0 +1,29 @@
+svg.dumbbellChart {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    text {
+        pointer-events: none;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .row {
+        cursor: pointer;
+        transition: opacity 120ms ease-out;
+    }
+
+    .row:hover .hit {
+        fill: rgba(0, 0, 0, 0.04);
+    }
+
+    &.hasSelection .row:not(.selected) {
+        opacity: 0.25;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .row {
+            transition: none;
+        }
+    }
+}

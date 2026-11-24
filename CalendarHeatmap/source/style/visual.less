@@ -1,0 +1,37 @@
+svg.calendarHeatmap {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    text {
+        pointer-events: none;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .cell {
+        cursor: pointer;
+        transition: opacity 120ms ease-out;
+    }
+
+    &.hovering .cell {
+        opacity: 0.6;
+    }
+
+    &.hovering .cell.active {
+        opacity: 1;
+    }
+
+    &.hasSelection .cell:not(.selected) {
+        opacity: 0.25;
+    }
+
+    &.hasSelection.hovering .cell.active {
+        opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .cell {
+            transition: none;
+        }
+    }
+}

@@ -1,0 +1,247 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Driver",
+            "description": "The name of each driver: Operating profit, Revenue, Volume, Price",
+            "name": "node",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Parent",
+            "description": "The driver each one feeds into; blank for the one at the top",
+            "name": "parent",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Operator",
+            "description": "Optional. How it combines into its parent: +, -, x or /. A driver with - counts as a cost",
+            "name": "operator",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Order",
+            "description": "Optional. A number that orders drivers under the same parent",
+            "name": "order",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Number format",
+            "description": "Optional. A format for each driver's numbers, such as #,0 or 0.0%, for a tree that mixes money, volumes and rates",
+            "name": "format",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Actual",
+            "description": "The actual result",
+            "name": "actual",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Plan",
+            "description": "Optional. The plan or budget",
+            "name": "plan",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Previous year",
+            "description": "Optional. The same measure for the previous year",
+            "name": "previousYear",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "comparison": {
+            "properties": {
+                "scenario": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto (plan, else previous year)"
+                            },
+                            {
+                                "value": "pl",
+                                "displayName": "Plan"
+                            },
+                            {
+                                "value": "py",
+                                "displayName": "Previous year"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "cards": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "valueSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "bars": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "numbers": {
+            "properties": {
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "colours": {
+            "properties": {
+                "good": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "bad": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "node": {
+                        "max": 1
+                    },
+                    "parent": {
+                        "max": 1
+                    },
+                    "operator": {
+                        "max": 1
+                    },
+                    "order": {
+                        "max": 1
+                    },
+                    "format": {
+                        "max": 1
+                    },
+                    "actual": {
+                        "max": 1
+                    },
+                    "plan": {
+                        "max": 1
+                    },
+                    "previousYear": {
+                        "max": 1
+                    }
+                }
+            ],
+            "table": {
+                "rows": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "node"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "parent"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "operator"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "order"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "format"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "actual"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "plan"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "previousYear"
+                            }
+                        }
+                    ],
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 300
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

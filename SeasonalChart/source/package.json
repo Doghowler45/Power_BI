@@ -1,0 +1,26 @@
+{
+    "name": "seasonal-chart",
+    "description": "Power BI custom visual: A month-by-month chart with one line for each year: the latest year stands out against the earlier ones, with their range behind it, as monthly values or as a running total.",
+    "version": "1.0.0",
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "pbiviz": "pbiviz",
+        "start": "pbiviz start",
+        "package": "pbiviz package",
+        "lint": "npx eslint ."
+    },
+    "dependencies": {
+        "powerbi-visuals-api": "5.11.1",
+        "powerbi-visuals-utils-formattingmodel": "6.0.4",
+        "powerbi-visuals-utils-formattingutils": "6.1.2"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^8.8.0",
+        "esbuild": "^0.28.2",
+        "eslint": "^9.11.1",
+        "eslint-plugin-powerbi-visuals": "^1.0.0",
+        "powerbi-visuals-tools": "7.2.1",
+        "typescript": "5.5.4"
+    }
+}

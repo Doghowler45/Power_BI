@@ -1,0 +1,231 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Actual",
+            "description": "One card for each measure here",
+            "name": "actual",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Plan",
+            "description": "The plan for each Actual measure, in the same order",
+            "name": "plan",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Previous year",
+            "description": "The previous year for each Actual measure, in the same order",
+            "name": "previousYear",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Trend",
+            "description": "Optional. Periods such as months, to add a small trend chart to each card",
+            "name": "trend",
+            "kind": "Grouping"
+        }
+    ],
+    "objects": {
+        "cards": {
+            "properties": {
+                "perRow": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "headline": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "sum",
+                                "displayName": "Sum of periods"
+                            },
+                            {
+                                "value": "last",
+                                "displayName": "Latest period"
+                            },
+                            {
+                                "value": "average",
+                                "displayName": "Average of periods"
+                            }
+                        ]
+                    }
+                },
+                "sparkline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "border": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "background": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "direction": {
+            "properties": {
+                "higherIsWorse": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "numbers": {
+            "properties": {
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "text": {
+            "properties": {
+                "valueSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "color": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "colours": {
+            "properties": {
+                "actual": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "good": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "bad": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "trend": {
+                        "max": 1
+                    },
+                    "actual": {
+                        "max": 12
+                    },
+                    "plan": {
+                        "max": 12
+                    },
+                    "previousYear": {
+                        "max": 12
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "trend"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 400
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "actual"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "plan"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "previousYear"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

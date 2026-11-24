@@ -1,0 +1,232 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Section",
+            "description": "The headings across the top, such as Financial performance",
+            "name": "section",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Sub-section",
+            "description": "Optional. The entries in a heading's dropdown, such as Profit and Loss. Leave a row blank for a heading that goes straight to a page",
+            "name": "item",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Page",
+            "description": "The name of the page each entry goes to, exactly as on its page tab",
+            "name": "page",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Page link",
+            "description": "Optional, for opening pages in a new tab: each page's id (the last part of its web address) or a full web address",
+            "name": "link",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Order",
+            "description": "Optional. A number column that puts the entries in order",
+            "name": "order",
+            "kind": "GroupingOrMeasure"
+        }
+    ],
+    "objects": {
+        "general": {
+            "properties": {
+                "filter": {
+                    "type": {
+                        "filter": true
+                    }
+                }
+            }
+        },
+        "navigation": {
+            "properties": {
+                "mode": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "button",
+                                "displayName": "Select, then a Go button"
+                            },
+                            {
+                                "value": "link",
+                                "displayName": "Open the page in a new tab"
+                            }
+                        ]
+                    }
+                },
+                "reportUrl": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "currentPage": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "openOnHover": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "header": {
+            "properties": {
+                "height": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "color": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "activeColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "fill": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "background": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "hoverColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "dropdown": {
+            "properties": {
+                "background": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "color": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "itemHeight": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "minWidth": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "section": {
+                        "max": 1
+                    },
+                    "item": {
+                        "max": 1
+                    },
+                    "page": {
+                        "max": 1
+                    },
+                    "link": {
+                        "max": 1
+                    },
+                    "order": {
+                        "max": 1
+                    }
+                }
+            ],
+            "table": {
+                "rows": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "section"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "item"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "page"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "link"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "order"
+                            }
+                        }
+                    ],
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 500
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "suppressDefaultTitle": true,
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "supportsKeyboardFocus": true,
+    "privileges": []
+}

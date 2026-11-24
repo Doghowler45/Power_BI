@@ -1,0 +1,33 @@
+svg.concentrationCurve {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    text {
+        pointer-events: none;
+        font-variant-numeric: tabular-nums;
+    }
+
+    line,
+    .bar {
+        shape-rendering: crispEdges;
+    }
+
+    .hit {
+        cursor: pointer;
+    }
+
+    .bar {
+        transition: opacity 120ms ease-out;
+    }
+
+    &.hasSelection .bar:not(.selected) {
+        opacity: 0.25;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .bar {
+            transition: none;
+        }
+    }
+}

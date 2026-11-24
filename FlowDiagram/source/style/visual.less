@@ -1,0 +1,53 @@
+svg.flowDiagram {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    text {
+        pointer-events: none;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .ribbon {
+        opacity: 0.5;
+        cursor: pointer;
+        transition: opacity 120ms ease-out;
+    }
+
+    .node {
+        cursor: pointer;
+        transition: opacity 120ms ease-out;
+    }
+
+    // Hovering a node or ribbon: what it connects stays strong and the rest steps back.
+    &.hovering .ribbon {
+        opacity: 0.12;
+    }
+
+    &.hovering .ribbon.related {
+        opacity: 0.8;
+    }
+
+    &.hovering .node {
+        opacity: 0.45;
+    }
+
+    &.hovering .node.related {
+        opacity: 1;
+    }
+
+    &.hasSelection .ribbon:not(.selected) {
+        opacity: 0.1;
+    }
+
+    &.hasSelection .ribbon.selected {
+        opacity: 0.8;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ribbon,
+        .node {
+            transition: none;
+        }
+    }
+}

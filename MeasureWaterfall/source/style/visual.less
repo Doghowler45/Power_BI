@@ -1,0 +1,18 @@
+svg.measureWaterfall {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    .labels text,
+    .categories text,
+    .axis text,
+    .messages text {
+        pointer-events: none;
+    }
+
+    .connectors line,
+    .axis line {
+        shape-rendering: crispEdges;
+        pointer-events: none;
+    }
+}

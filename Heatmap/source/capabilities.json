@@ -1,0 +1,350 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Rows",
+            "description": "What runs down the side: one row of cells for each value",
+            "name": "category",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Columns",
+            "description": "What runs across the top: one column of cells for each value",
+            "name": "series",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Values",
+            "description": "The measure that sets each cell's colour",
+            "name": "value",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tooltips",
+            "description": "Optional. More measures to show when a cell is hovered",
+            "name": "tooltips",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "colours": {
+            "properties": {
+                "palette": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "green",
+                                "displayName": "Green"
+                            },
+                            {
+                                "value": "teal",
+                                "displayName": "Teal"
+                            },
+                            {
+                                "value": "blue",
+                                "displayName": "Blue"
+                            },
+                            {
+                                "value": "purple",
+                                "displayName": "Purple"
+                            },
+                            {
+                                "value": "amber",
+                                "displayName": "Amber"
+                            },
+                            {
+                                "value": "redBlue",
+                                "displayName": "Red to blue (two-sided)"
+                            },
+                            {
+                                "value": "redTeal",
+                                "displayName": "Red to teal (two-sided)"
+                            },
+                            {
+                                "value": "custom",
+                                "displayName": "Custom"
+                            }
+                        ]
+                    }
+                },
+                "reverse": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "midpoint": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "scope": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "all",
+                                "displayName": "All cells"
+                            },
+                            {
+                                "value": "row",
+                                "displayName": "Each row"
+                            },
+                            {
+                                "value": "column",
+                                "displayName": "Each column"
+                            }
+                        ]
+                    }
+                },
+                "zeroBased": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "customLow": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "customHigh": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "customTwoSided": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "customMid": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cells": {
+            "properties": {
+                "gap": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "radius": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "maxHeight": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "empty": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "hatch",
+                                "displayName": "Hatched"
+                            },
+                            {
+                                "value": "blank",
+                                "displayName": "Blank"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "values": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "axis": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "color": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "sortRows": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "none",
+                                "displayName": "Data order"
+                            },
+                            {
+                                "value": "total",
+                                "displayName": "Total, largest first"
+                            }
+                        ]
+                    }
+                },
+                "sortColumns": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "none",
+                                "displayName": "Data order"
+                            },
+                            {
+                                "value": "total",
+                                "displayName": "Total, largest first"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "legend": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "position": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "bottom",
+                                "displayName": "Bottom"
+                            },
+                            {
+                                "value": "top",
+                                "displayName": "Top"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "category": {
+                        "max": 1
+                    },
+                    "series": {
+                        "max": 1
+                    },
+                    "value": {
+                        "max": 1
+                    },
+                    "tooltips": {
+                        "max": 5
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "category"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 200
+                        }
+                    }
+                },
+                "values": {
+                    "group": {
+                        "by": "series",
+                        "select": [
+                            {
+                                "bind": {
+                                    "to": "value"
+                                }
+                            },
+                            {
+                                "for": {
+                                    "in": "tooltips"
+                                }
+                            }
+                        ],
+                        "dataReductionAlgorithm": {
+                            "top": {
+                                "count": 60
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

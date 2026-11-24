@@ -1,0 +1,39 @@
+.driverTree {
+    box-sizing: border-box;
+    overflow: auto;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    svg {
+        display: block;
+    }
+
+    text {
+        pointer-events: none;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .card {
+        cursor: pointer;
+        transition: opacity 120ms ease-out;
+    }
+
+    .card:hover .frame {
+        stroke: #898781;
+    }
+
+    .card.selected .frame {
+        stroke: #52514E;
+        stroke-width: 1.5px;
+    }
+
+    svg.hasSelection .card:not(.selected) {
+        opacity: 0.3;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .card {
+            transition: none;
+        }
+    }
+}

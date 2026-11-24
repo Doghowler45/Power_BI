@@ -1,0 +1,99 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Base",
+            "description": "The measure the waterfall starts from, for example last year's profit",
+            "name": "base",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Steps",
+            "description": "One measure per step, in the order they should appear. Positive values go up, negative values go down. To chain periods, add a later result (for example FY26 profit) here and switch it on under Format > Subtotal bars",
+            "name": "steps",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "bars": {
+            "properties": {
+                "increaseColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "decreaseColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "baseColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "totalColor": { "type": { "fill": { "solid": { "color": true } } } },
+                "gap": { "type": { "numeric": true } },
+                "cornerRadius": { "type": { "numeric": true } },
+                "connectors": { "type": { "bool": true } }
+            }
+        },
+        "stepType": {
+            "properties": {
+                "subtotal": { "type": { "bool": true } }
+            }
+        },
+        "total": {
+            "properties": {
+                "show": { "type": { "bool": true } },
+                "label": { "type": { "text": true } }
+            }
+        },
+        "labels": {
+            "properties": {
+                "show": { "type": { "bool": true } },
+                "fontSize": { "type": { "numeric": true } },
+                "color": { "type": { "fill": { "solid": { "color": true } } } },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            { "value": "auto", "displayName": "Auto" },
+                            { "value": "none", "displayName": "None" },
+                            { "value": "thousands", "displayName": "Thousands" },
+                            { "value": "millions", "displayName": "Millions" },
+                            { "value": "billions", "displayName": "Billions" }
+                        ]
+                    }
+                },
+                "decimals": { "type": { "numeric": true } },
+                "signed": { "type": { "bool": true } }
+            }
+        },
+        "category": {
+            "properties": {
+                "fontSize": { "type": { "numeric": true } },
+                "color": { "type": { "fill": { "solid": { "color": true } } } }
+            }
+        },
+        "axis": {
+            "properties": {
+                "show": { "type": { "bool": true } },
+                "startAtZero": { "type": { "bool": true } },
+                "color": { "type": { "fill": { "solid": { "color": true } } } }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "base": { "max": 1 }
+                }
+            ],
+            "categorical": {
+                "values": {
+                    "select": [
+                        { "bind": { "to": "base" } },
+                        { "for": { "in": "steps" } }
+                    ]
+                }
+            }
+        }
+    ],
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

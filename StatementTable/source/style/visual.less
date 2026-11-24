@@ -1,0 +1,118 @@
+.statementTable {
+    box-sizing: border-box;
+    overflow: auto;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: var(--pad, 5px) var(--cellpad, 8px);
+        white-space: nowrap;
+        text-align: right;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--line, transparent);
+    }
+
+    th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: #FFFFFF;
+        font-weight: 600;
+        border-bottom: 1.5px solid currentColor;
+    }
+
+    th.name,
+    td.name {
+        text-align: left;
+    }
+
+    // The last resort for a narrow visual: long line names take two lines.
+    &.wrapNames td.name {
+        white-space: normal;
+        min-width: 7em;
+    }
+
+    .swatch {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 0.8em;
+        height: 0.8em;
+        margin-right: 5px;
+        vertical-align: -0.05em;
+    }
+
+    .chartCell {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 6px;
+    }
+
+    .chartCell .number {
+        display: inline-block;
+        min-width: 4.4em;
+    }
+
+    svg.inCell {
+        display: block;
+        flex: none;
+        shape-rendering: crispEdges;
+    }
+
+    tbody tr[data-key] {
+        cursor: pointer;
+    }
+
+    tbody tr[data-key]:hover td {
+        background: rgba(0, 0, 0, 0.04);
+    }
+
+    tbody tr.dimmed {
+        opacity: 0.35;
+    }
+
+    // A subtotal is ruled off above; a total is ruled above and double-ruled below, as in printed accounts.
+    tr.subtotal td,
+    tr.total td {
+        font-weight: 600;
+        border-top: 1px solid currentColor;
+    }
+
+    tr.total td {
+        border-bottom: 3px double currentColor;
+    }
+
+    tr.heading td {
+        font-weight: 600;
+        padding-top: calc(var(--pad, 5px) + 4px);
+    }
+
+    tr.ratio td {
+        font-style: italic;
+        opacity: 0.85;
+    }
+
+    tr.spacer td {
+        padding: 0;
+        height: 8px;
+        border-bottom: none;
+    }
+
+    .message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 0 16px;
+        text-align: center;
+        color: #6B6B68;
+        font-size: 12px;
+    }
+}

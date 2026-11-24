@@ -1,0 +1,266 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Line",
+            "description": "The lines of the statement: Revenue, Cost of sales, Gross profit and so on",
+            "name": "line",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Line type",
+            "description": "Optional. What each line is: line, cost, subtotal, total, heading, ratio or spacer",
+            "name": "kind",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Order",
+            "description": "Optional. A number that puts the lines in order",
+            "name": "order",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Indent",
+            "description": "Optional. 0 for no indent, 1 for one step in, and so on",
+            "name": "level",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Actual",
+            "description": "The actual result",
+            "name": "actual",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Plan",
+            "description": "Optional. The plan or budget",
+            "name": "plan",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Previous year",
+            "description": "Optional. The same measure for the previous year",
+            "name": "previousYear",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "columns": {
+            "properties": {
+                "absolute": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "relative": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "bars": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "numbers": {
+            "properties": {
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "brackets": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "text": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "color": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "rows": {
+            "properties": {
+                "padding": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "lines": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "colours": {
+            "properties": {
+                "actual": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "previousYear": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "good": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "bad": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "line": {
+                        "max": 1
+                    },
+                    "kind": {
+                        "max": 1
+                    },
+                    "order": {
+                        "max": 1
+                    },
+                    "level": {
+                        "max": 1
+                    },
+                    "actual": {
+                        "max": 1
+                    },
+                    "plan": {
+                        "max": 1
+                    },
+                    "previousYear": {
+                        "max": 1
+                    }
+                }
+            ],
+            "table": {
+                "rows": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "line"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "kind"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "order"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "level"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "actual"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "plan"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "previousYear"
+                            }
+                        }
+                    ],
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 500
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

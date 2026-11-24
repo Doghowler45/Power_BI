@@ -1,0 +1,121 @@
+.varianceTable {
+    box-sizing: border-box;
+    overflow: auto;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: var(--pad, 5px) 8px;
+        white-space: nowrap;
+        text-align: right;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--line, #E3E3DF);
+    }
+
+    th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: #FFFFFF;
+        font-weight: 600;
+        cursor: pointer;
+        border-bottom: 1.5px solid currentColor;
+    }
+
+    th.category,
+    td.category,
+    th.comment,
+    td.comment {
+        text-align: left;
+    }
+
+    td.comment {
+        white-space: normal;
+        min-width: 140px;
+        line-height: 1.25;
+    }
+
+    // Variance headings sit over the number, with the small chart to its left.
+    .chartCell {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 6px;
+    }
+
+    .chartCell .number {
+        display: inline-block;
+        min-width: 4.2em;
+    }
+
+    svg.inCell {
+        display: block;
+        flex: none;
+        shape-rendering: crispEdges;
+    }
+
+    .heading {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .arrow {
+        font-size: 0.7em;
+    }
+
+    .swatch {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 0.8em;
+        height: 0.8em;
+        flex: none;
+    }
+
+    td .swatch {
+        margin-right: 5px;
+        vertical-align: -0.05em;
+    }
+
+    td.forecast .number {
+        font-style: italic;
+    }
+
+    tbody tr {
+        cursor: pointer;
+    }
+
+    tbody tr:hover td {
+        background: rgba(0, 0, 0, 0.04);
+    }
+
+    tbody tr.dimmed {
+        opacity: 0.35;
+    }
+
+    tfoot td {
+        position: sticky;
+        bottom: 0;
+        background: #FFFFFF;
+        font-weight: 600;
+        border-top: 1.5px solid currentColor;
+        border-bottom: none;
+    }
+
+    .message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 0 16px;
+        text-align: center;
+        color: #6B6B68;
+        font-size: 12px;
+    }
+}

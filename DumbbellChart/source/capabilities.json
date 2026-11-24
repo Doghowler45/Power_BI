@@ -1,0 +1,189 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Category",
+            "description": "One row for each value: customers, products, markets",
+            "name": "category",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "From",
+            "description": "The earlier value, such as last year's revenue",
+            "name": "start",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "To",
+            "description": "The later value, such as this year's revenue",
+            "name": "end",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tooltips",
+            "description": "Optional. More measures to show on hover",
+            "name": "tooltips",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "rows": {
+            "properties": {
+                "sort": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "change",
+                                "displayName": "Change, largest increase first"
+                            },
+                            {
+                                "value": "percent",
+                                "displayName": "Change %, largest increase first"
+                            },
+                            {
+                                "value": "end",
+                                "displayName": "Latest value, largest first"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "Data order"
+                            }
+                        ]
+                    }
+                },
+                "maxRows": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "comparison": {
+            "properties": {
+                "scale": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "values",
+                                "displayName": "The values"
+                            },
+                            {
+                                "value": "percent",
+                                "displayName": "Percentage change"
+                            }
+                        ]
+                    }
+                },
+                "higherIsWorse": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "labels": {
+            "properties": {
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "percent": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "category": {
+                        "max": 1
+                    },
+                    "start": {
+                        "max": 1
+                    },
+                    "end": {
+                        "max": 1
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "category"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 2000
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "start"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "end"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "tooltips"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

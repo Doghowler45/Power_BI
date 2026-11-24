@@ -1,0 +1,569 @@
+// Layout only. Colours, fills, fonts, row padding and sizes come from the format pane or the
+// toolbar and are written straight onto the elements by the visual, so nothing here can override them.
+.manualTable {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 5px 8px;
+        border-bottom: 1px solid #96cf80;
+        text-align: left;
+        vertical-align: middle;
+        font-size: inherit;
+        // Text in a narrowed column wraps inside its cell instead of spilling into the next one.
+        overflow: hidden;
+        overflow-wrap: anywhere;
+    }
+
+    th {
+        font-weight: 600;
+        border-bottom-width: 2px;
+    }
+
+    tfoot td {
+        font-weight: 600;
+        border-top: 2px solid #96cf80;
+        border-bottom: none;
+    }
+
+    .empty {
+        padding: 12px 8px;
+        color: #8a8a86;
+    }
+
+    /* ---------- authoring mode: toolbar ---------- */
+
+    .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px 6px;
+        padding: 0 0 6px 0;
+        font-size: 11px;
+        color: #1c1c1b;
+
+        // Takes whatever is left of the last line, and is cut short there, so it never adds a line of its own.
+        .hint {
+            flex: 1 1 0;
+            min-width: 0;
+            color: #8a8a86;
+            margin-left: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    // A labelled set of controls in the toolbar (Fill, Size).
+    .group {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        margin-left: 4px;
+        padding-left: 8px;
+        border-left: 1px solid #d5d8d2;
+        white-space: nowrap;
+
+        .label {
+            color: #4a4a48;
+            margin-right: 1px;
+        }
+    }
+
+    button {
+        font: inherit;
+        color: #1c1c1b;
+        background: #ffffff;
+        border: 1px solid #c9c9c5;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover:not(:disabled) {
+            background: #f1f3f0;
+        }
+
+        &:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+    }
+
+    button.add,
+    button.apply {
+        padding: 2px 9px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    // Opens the colour picker. The chip shows the colour the picker is currently set to.
+    button.pick {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 2px 8px 2px 4px;
+        font-size: 11px;
+        white-space: nowrap;
+
+        .chip {
+            box-sizing: border-box;
+            width: 14px;
+            height: 14px;
+            border: 1px solid rgba(0, 0, 0, 0.28);
+            border-radius: 3px;
+        }
+    }
+
+    // The border button's chip is hollow: only its edge takes the colour.
+    button.pick.border .chip {
+        border-color: transparent;
+    }
+
+    // The text button's chip is a letter A, underlined in the colour.
+    button.pick.text .chip {
+        border: none;
+        border-radius: 0;
+        font-weight: 700;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: center;
+    }
+
+    select.scope,
+    select.font,
+    select.sides {
+        font: inherit;
+        font-size: 11px;
+        padding: 1px 2px;
+        margin-right: 3px;
+        color: #1c1c1b;
+        background: #ffffff;
+        border: 1px solid #c9c9c5;
+        border-radius: 4px;
+    }
+
+    select.font {
+        width: 104px;
+    }
+
+    // Bold, italic and underline: each letter is drawn in the style it switches on.
+    button.style {
+        flex: none;
+        width: 21px;
+        padding: 2px 0;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: center;
+
+        &.bold {
+            font-weight: 700;
+        }
+
+        &.italic {
+            font-style: italic;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        &.underline {
+            text-decoration: underline;
+        }
+
+        // Pressed in: the selected cell has it.
+        &.on,
+        &.on:hover:not(:disabled) {
+            color: #ffffff;
+            background: #1c1c1b;
+            border-color: #1c1c1b;
+        }
+    }
+
+    button.swatch {
+        flex: none;
+        width: 17px;
+        height: 17px;
+        padding: 0;
+        border: 1px solid rgba(0, 0, 0, 0.28);
+        border-radius: 3px;
+
+        &:hover {
+            border-color: #1c1c1b;
+        }
+    }
+
+
+    button.swatch.none {
+        font-size: 12px;
+        line-height: 13px;
+        color: #8a8a86;
+    }
+
+    // Number boxes for the text size, an exact column width and a row height.
+    .toolbar input.fontSize {
+        width: 38px;
+    }
+
+    .toolbar input.size {
+        width: 50px;
+    }
+
+    .toolbar input.size,
+    .toolbar input.fontSize {
+        min-width: 0;
+        margin-right: 4px;
+        padding: 1px 3px;
+        font-size: 11px;
+        color: #1c1c1b;
+        text-align: right;
+        background: #ffffff;
+        border: 1px solid #c9c9c5;
+        border-radius: 4px;
+
+        &:disabled {
+            opacity: 0.45;
+        }
+    }
+
+    /* ---------- authoring mode: colour picker ---------- */
+
+    .picker {
+        position: absolute;
+        top: 30px;
+        left: 150px;
+        z-index: 10;
+        padding: 8px;
+        background: #ffffff;
+        border: 1px solid #c9c9c5;
+        border-radius: 6px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        font-size: 11px;
+        color: #1c1c1b;
+
+        // Text / Fill / Border: which of the three the picker is setting.
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 7px;
+        }
+
+        // Which sides get the border. Shown on the Border tab only.
+        .sidesRow {
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 7px;
+
+            .label {
+                color: #4a4a48;
+            }
+
+            select.sides {
+                flex: 1;
+                margin-right: 0;
+            }
+        }
+
+        button.tab {
+            flex: 1;
+            padding: 2px 0;
+            font-size: 11px;
+
+            &.on {
+                color: #ffffff;
+                background: #1c1c1b;
+                border-color: #1c1c1b;
+            }
+        }
+
+        // Transparency: a slider over a chequered track, so see-through is visible.
+        .alphaRow {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            .label {
+                color: #4a4a48;
+            }
+
+            .percent {
+                width: 30px;
+                text-align: right;
+                font-variant-numeric: tabular-nums;
+            }
+        }
+
+        .alphaTrack {
+            flex: 1;
+            height: 12px;
+            border-radius: 6px;
+            background-color: #ffffff;
+            background-size: auto, 8px 8px;
+        }
+
+        input.alpha {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            height: 12px;
+            margin: 0;
+            padding: 0;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            background: transparent;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+
+            &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 8px;
+                height: 16px;
+                border: 2px solid #ffffff;
+                border-radius: 3px;
+                background: transparent;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        // Saturation runs left to right, brightness bottom to top, over the chosen hue.
+        .square {
+            position: relative;
+            border-radius: 3px;
+            cursor: crosshair;
+            overflow: hidden;
+        }
+
+        .white,
+        .black {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .white {
+            background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+        }
+
+        .black {
+            background: linear-gradient(to top, #000000, rgba(0, 0, 0, 0));
+        }
+
+        .knob {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            margin: -6px 0 0 -6px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+            pointer-events: none;
+        }
+
+        input.hue {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            height: 12px;
+            margin: 8px 0;
+            padding: 0;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+
+            &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 8px;
+                height: 16px;
+                border: 2px solid #ffffff;
+                border-radius: 3px;
+                background: transparent;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+
+        // The colour as it will be applied, over a chequered square so transparency shows.
+        .preview {
+            flex: none;
+            width: 22px;
+            height: 22px;
+            border: 1px solid rgba(0, 0, 0, 0.28);
+            border-radius: 3px;
+            overflow: hidden;
+            background-color: #ffffff;
+            background-image: linear-gradient(45deg, #c9c9c5 25%, transparent 25%, transparent 75%, #c9c9c5 75%), linear-gradient(45deg, #c9c9c5 25%, transparent 25%, transparent 75%, #c9c9c5 75%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+
+            .ink {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        button.none {
+            padding: 2px 7px;
+            font-size: 11px;
+        }
+
+        input.hex {
+            width: 66px;
+            min-width: 0;
+            padding: 2px 4px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 11px;
+            color: #1c1c1b;
+            text-transform: uppercase;
+            background: #ffffff;
+            border: 1px solid #c9c9c5;
+            border-radius: 4px;
+
+            &.invalid {
+                border-color: #b3202a;
+            }
+        }
+
+        button.close {
+            padding: 0 6px;
+            line-height: 18px;
+        }
+    }
+
+    /* ---------- authoring mode: table ---------- */
+
+    button.type,
+    button.remove {
+        flex: none;
+        padding: 0 4px;
+        font-size: 9px;
+        line-height: 15px;
+        min-width: 17px;
+        opacity: 0.55;
+    }
+
+    tr:hover button.remove,
+    th:hover button,
+    button:focus {
+        opacity: 1;
+    }
+
+    &.editing {
+        th,
+        td {
+            position: relative;
+            padding: 2px 3px;
+        }
+
+        th.rowTools,
+        td.rowTools {
+            padding: 0 2px;
+            text-align: center;
+            border-bottom-color: transparent;
+        }
+
+        // The cell a fill or size will be applied to.
+        td.active,
+        th.active {
+            outline: 2px dashed #57b133;
+            outline-offset: -2px;
+        }
+    }
+
+    // Strips along cell edges that are dragged to resize a column or a row.
+    .columnGrip {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 6px;
+        cursor: col-resize;
+        z-index: 2;
+
+        &:hover {
+            background: rgba(87, 177, 51, 0.55);
+        }
+    }
+
+    .rowGrip {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        cursor: row-resize;
+        z-index: 1;
+
+        &:hover {
+            background: rgba(87, 177, 51, 0.55);
+        }
+    }
+
+    // Keep the resize cursor, and stop text being selected, for the whole of a drag.
+    &.resizingColumn,
+    &.resizingColumn * {
+        cursor: col-resize !important;
+        user-select: none;
+    }
+
+    &.resizingRow,
+    &.resizingRow * {
+        cursor: row-resize !important;
+        user-select: none;
+    }
+
+    .headerCell {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    input.cell,
+    input.header {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 20px;
+        margin: 0;
+        padding: 5px;
+        font: inherit;
+        color: inherit;
+        text-align: inherit;
+        background: transparent;
+        border: 1px dashed rgba(128, 134, 126, 0.45);
+        border-radius: 2px;
+
+        &:hover {
+            border-color: rgba(128, 134, 126, 0.9);
+        }
+
+        &:focus {
+            outline: none;
+            border: 1px solid #57b133;
+        }
+    }
+
+    input.header {
+        font-weight: 600;
+    }
+}

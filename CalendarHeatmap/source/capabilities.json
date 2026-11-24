@@ -1,0 +1,169 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Date",
+            "description": "A date column. Days are added up into months",
+            "name": "date",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Values",
+            "description": "The measure, such as revenue",
+            "name": "value",
+            "kind": "Measure"
+        }
+    ],
+    "objects": {
+        "calendar": {
+            "properties": {
+                "firstMonth": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "newestFirst": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "totals": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "colours": {
+            "properties": {
+                "hue": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "green",
+                                "displayName": "Green"
+                            },
+                            {
+                                "value": "teal",
+                                "displayName": "Teal"
+                            },
+                            {
+                                "value": "blue",
+                                "displayName": "Blue"
+                            },
+                            {
+                                "value": "purple",
+                                "displayName": "Purple"
+                            }
+                        ]
+                    }
+                },
+                "scope": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "all",
+                                "displayName": "All months"
+                            },
+                            {
+                                "value": "year",
+                                "displayName": "Each year"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "labels": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "units": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "date": {
+                        "max": 1
+                    },
+                    "value": {
+                        "max": 1
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "date"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 30000
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "value"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        }
+    },
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "privileges": []
+}

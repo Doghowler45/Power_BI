@@ -1,0 +1,28 @@
+{
+    "name": "calendar-heatmap",
+    "description": "Power BI custom visual: A calendar of months: one row for each year and one cell for each month, coloured by a measure, with each year's total and its change on the year before.",
+    "version": "1.0.0",
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "pbiviz": "pbiviz",
+        "start": "pbiviz start",
+        "package": "pbiviz package",
+        "lint": "npx eslint ."
+    },
+    "dependencies": {
+        "@types/d3-interpolate": "3.0.4",
+        "d3-interpolate": "3.0.2",
+        "powerbi-visuals-api": "5.11.1",
+        "powerbi-visuals-utils-formattingmodel": "6.0.4",
+        "powerbi-visuals-utils-formattingutils": "6.1.2"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^8.8.0",
+        "esbuild": "^0.28.2",
+        "eslint": "^9.11.1",
+        "eslint-plugin-powerbi-visuals": "^1.0.0",
+        "powerbi-visuals-tools": "7.2.1",
+        "typescript": "5.5.4"
+    }
+}

@@ -1,0 +1,34 @@
+svg.distributionChart {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    text {
+        pointer-events: none;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .box,
+    .point {
+        cursor: pointer;
+    }
+
+    .point {
+        transition: opacity 120ms ease-out;
+    }
+
+    .point:hover {
+        stroke: #0B0B0B;
+        stroke-width: 1.5;
+    }
+
+    &.hasSelection .point:not(.selected) {
+        opacity: 0.2;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .point {
+            transition: none;
+        }
+    }
+}

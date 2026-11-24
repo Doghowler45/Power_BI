@@ -1,0 +1,42 @@
+svg.rankChart {
+    display: block;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    user-select: none;
+
+    text {
+        pointer-events: none;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .line {
+        cursor: pointer;
+        transition: opacity 120ms ease-out;
+    }
+
+    // Hovering a line: it thickens and the rest step back.
+    &.hovering .line {
+        opacity: 0.2;
+    }
+
+    &.hovering .line.active {
+        opacity: 1;
+    }
+
+    .line.active .stroke {
+        stroke-width: 4;
+    }
+
+    &.hasSelection .line:not(.selected) {
+        opacity: 0.2;
+    }
+
+    &.hasSelection.hovering .line.active {
+        opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .line {
+            transition: none;
+        }
+    }
+}
