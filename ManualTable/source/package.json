@@ -1,7 +1,7 @@
 {
     "name": "manual-table",
     "description": "Power BI custom visual: a table you type into while authoring, read-only once the report is published",
-    "version": "1.8.0",
+    "version": "1.9.0",
     "private": true,
     "license": "MIT",
     "scripts": {

@@ -1,7 +1,7 @@
 "use strict";
 
 import {
-    addColumn, addRow, applyBorders, applyFormat, borderAt, BorderChoice, CellBorder, CellFormat, CellRange, cleanSize, clearFormat, cloneTable,
+    addColumn, addRow, applyBorders, applyFormat, borderAt, BorderChoice, CellAlign, CellBorder, CellFormat, CellRange, cleanSize, clearFormat, cloneTable,
     columnTotals, displayCell, emptyTable, fontCss, FONTS, formatAt, formatNumber, HEADER_ROW, isGridPaste, MAX_COLUMNS, MAX_FONT_SIZE, MAX_HEIGHT,
     MAX_ROWS, MAX_WIDTH, MIN_FONT_SIZE, MIN_HEIGHT, MIN_WIDTH, NumberStyle, parseClipboard, pasteGrid, removeColumn, removeRow, TableColumn, TableData,
 } from "./tableModel";
@@ -91,8 +91,9 @@ const borderShadow = (border: CellBorder | undefined): string => {
     if (border.b) parts.push(`inset 0 -${w}px 0 0 ${border.b}`);
     return parts.length ? parts.join(", ") : "none";
 };
-/** Width of the narrow column that holds the delete-row buttons while authoring. */
-const TOOLS_WIDTH = 26;
+/** A space that does not collapse: what an empty cell holds, so that it is still one line tall. */
+const NBSP = " ";
+const ALIGNS: CellAlign[] = ["left", "center", "right"];
 /** Size of the colour picker's saturation and brightness square, in pixels. */
 const SV_WIDTH = 190, SV_HEIGHT = 100;
 
@@ -145,7 +146,18 @@ export class TableView {
     private formatParts: {
         font: HTMLSelectElement; size: HTMLInputElement; clear: HTMLButtonElement;
         toggles: { [key in "bold" | "italic" | "underline"]: HTMLButtonElement };
+        aligns: { [key in CellAlign]: HTMLButtonElement };
     } | null = null;
+    // The toolbar's buttons that act on the active cell's row and column.
+    private structureParts: { deleteRow: HTMLButtonElement; deleteColumn: HTMLButtonElement; type: HTMLButtonElement } | null = null;
+
+    /**
+     * True while the table is not being worked on. The toolbar is then put away, so the table
+     * sits exactly where it will once published; it comes back when the table is clicked.
+     */
+    private idle = true;
+    /** True until something has been saved: the toolbar then stays out, so a new table shows how it is used. */
+    private fresh = false;
 
     // Parts of the table that sizes are applied to without rebuilding it.
     private tableElement: HTMLTableElement | null = null;
@@ -156,6 +168,36 @@ export class TableView {
     constructor(container: HTMLElement) {
         this.root = el("div", "manualTable");
         container.appendChild(this.root);
+
+        // Clicking into the table brings the toolbar out. Dragging an edge to resize does not:
+        // that handler cancels the click, and resizing needs no toolbar.
+        this.root.addEventListener("focusin", () => this.setIdle(false));
+        this.root.addEventListener("mousedown", (event) => {
+            if (!event.defaultPrevented) this.setIdle(false);
+        });
+        // It is put away when attention goes elsewhere: another part of the report (Power BI
+        // runs each visual in its own window, which then loses focus) or another part of this page.
+        window.addEventListener("blur", () => this.setIdle(true));
+        window.addEventListener("focus", () => {
+            if (this.root.contains(document.activeElement)) this.setIdle(false);
+        });
+        document.addEventListener("mousedown", (event) => {
+            if (!this.root.contains(event.target as Node)) this.setIdle(true);
+        });
+    }
+
+    private setIdle(idle: boolean): void {
+        this.idle = idle;
+        const hidden = idle && !this.fresh;
+        if (this.root.classList.contains("idle") === hidden) return;
+        this.root.classList.toggle("idle", hidden);
+        if (!hidden) this.placePicker();
+    }
+
+    /** Says whether anything has been saved yet. Until it has, the toolbar is always shown. */
+    public setFresh(fresh: boolean): void {
+        this.fresh = fresh;
+        this.setIdle(this.idle);
     }
 
     /** Rebuilds the whole table from the given data. */
@@ -186,7 +228,7 @@ export class TableView {
             italic: format.italic ?? style.italic,
             underline: format.underline ?? style.underline,
             color: format.color || style.color,
-            align: style.align,
+            align: format.align || style.align,
         };
     }
 
@@ -221,7 +263,12 @@ export class TableView {
         return own || options.headerBackground || "";
     }
 
-    /** Paints one header cell and, in edit mode, the text box inside it. */
+    // A cell is painted the same way whether or not the table can be typed into, so that it is
+    // the same size and looks the same while authoring as it does once published. While
+    // authoring, a text box lies over each cell; it is see-through until it is being typed in,
+    // and takes no part in the cell's size. It is given the cell's font so typing looks right.
+
+    /** Paints one header cell. */
     private paintHeader(th: HTMLTableCellElement, column: number): void {
         const options = this.options!;
         const fill = this.headerFill(column);
@@ -229,59 +276,56 @@ export class TableView {
         // The line under the header is one pixel thicker than the lines between rows.
         paint(th, "border-bottom", options.ruleWidth > 0 ? `${options.ruleWidth + 1}px solid ${options.ruleColor}` : "none");
         const format = this.data.headerFormats[column];
-        const input = th.querySelector<HTMLInputElement>("input.header");
-        if (input) {
-            this.applyText(input, options.header, this.data.columns[column], false, format);
-            // The box is given the fill itself, so the fill shows even where the host
-            // application draws text boxes with a solid background.
-            paint(input, "background", fill || "transparent");
-            paint(input, "padding", `${Math.max(0, options.rowPadding)}px 5px`);
-        } else {
-            this.applyText(th, options.header, this.data.columns[column], false, format);
-            paint(th, "padding", `${Math.max(0, options.rowPadding)}px 8px`);
-        }
+        const padding = `${Math.max(0, options.rowPadding)}px 8px`;
+        this.applyText(th, options.header, this.data.columns[column], false, format);
+        paint(th, "padding", padding);
         // A header cell given its own dark fill switches to white text so it stays readable,
         // unless a text colour was chosen for it.
         const own = this.data.headerFills[column] || "";
-        if (own && isDark(own) && !(format && format.color)) paint(input || th, "color", "#FFFFFF");
+        if (own && isDark(own) && !(format && format.color)) paint(th, "color", "#FFFFFF");
         paint(th, "box-shadow", borderShadow(this.data.headerBorders[column]));
+        const input = th.querySelector<HTMLInputElement>("input.header");
+        if (input) {
+            this.applyText(input, options.header, this.data.columns[column], false, format);
+            paint(input, "padding", padding);
+        }
     }
 
-    /** Paints one body cell and, in edit mode, the text box inside it. */
+    /** Paints one body cell. */
     private paintCell(td: HTMLTableCellElement, row: number, column: number): void {
         const options = this.options!;
         const fill = this.cellFill(row, column);
         paint(td, "background", fill || "transparent");
         paint(td, "border-bottom", options.ruleWidth > 0 ? `${options.ruleWidth}px solid ${options.ruleColor}` : "none");
         const format = formatAt(this.data, row, column);
-        const input = td.querySelector<HTMLInputElement>("input.cell");
-        if (input) {
-            this.applyText(input, options.values, this.data.columns[column], false, format);
-            paint(input, "background", fill || "transparent");
-            paint(input, "padding", `${Math.max(0, options.rowPadding)}px 5px`);
-        } else {
-            this.applyText(td, options.values, this.data.columns[column], false, format);
-            paint(td, "padding", `${Math.max(0, options.rowPadding)}px 8px`);
-        }
+        const padding = `${Math.max(0, options.rowPadding)}px 8px`;
+        this.applyText(td, options.values, this.data.columns[column], false, format);
+        paint(td, "padding", padding);
         // A cell given its own dark fill switches to white text so it stays readable, unless a
         // text colour was chosen for it.
         const own = this.data.fills[row] ? this.data.fills[row][column] : "";
-        if (own && isDark(own) && !(format && format.color)) paint(input || td, "color", "#FFFFFF");
+        if (own && isDark(own) && !(format && format.color)) paint(td, "color", "#FFFFFF");
         paint(td, "box-shadow", borderShadow(borderAt(this.data, row, column)));
+        const input = td.querySelector<HTMLInputElement>("input.cell");
+        if (input) {
+            this.applyText(input, options.values, this.data.columns[column], false, format);
+            paint(input, "padding", padding);
+        }
     }
 
     /** Repaints one cell, body or header, keeping the white editing box of the cell being typed in. */
     private repaint(row: number, column: number): void {
-        if (row === HEADER_ROW) {
-            const th = this.headerCell(column);
-            if (th) this.paintHeader(th, column);
-            return;
-        }
-        const td = this.bodyCell(row, column);
-        if (!td) return;
-        this.paintCell(td, row, column);
-        const input = td.querySelector<HTMLInputElement>("input.cell");
+        const cell = row === HEADER_ROW ? this.headerCell(column) : this.bodyCell(row, column);
+        if (!cell) return;
+        if (row === HEADER_ROW) this.paintHeader(cell, column);
+        else this.paintCell(cell, row, column);
+        const input = cell.querySelector<HTMLInputElement>("input.cell, input.header");
         if (input && input === document.activeElement) this.styleEditing(input);
+    }
+
+    /** What a cell shows. An empty cell still holds a line of text, so an empty row is as tall as any other. */
+    private shownText(text: string): string {
+        return text === "" ? NBSP : text;
     }
 
     private headerCell(column: number): HTMLTableCellElement | null {
@@ -308,7 +352,7 @@ export class TableView {
         // With every width set, the table is exactly as wide as its columns; otherwise it fills
         // the visual and the automatic columns share what is left.
         paint(table, "table-layout", anySet ? "fixed" : "auto");
-        const total = widths.reduce((sum, w) => sum + w, 0) + (options.editable ? TOOLS_WIDTH : 0);
+        const total = widths.reduce((sum, w) => sum + w, 0);
         paint(table, "width", allSet ? `${total}px` : "100%");
         this.columnElements.forEach((col, c) => {
             if (widths[c] > 0) paint(col, "width", `${widths[c]}px`);
@@ -319,11 +363,6 @@ export class TableView {
             if (!tr) return;
             if (height > 0) paint(tr, "height", `${height}px`);
             else tr.style.removeProperty("height");
-            // A text box does not stretch with its row, so it is given the height directly.
-            tr.querySelectorAll<HTMLInputElement>("input.cell, input.header").forEach((input) => {
-                if (height > 0) paint(input, "height", `${Math.max(12, height - 5)}px`);
-                else input.style.removeProperty("height");
-            });
         };
         setRowHeight(table.querySelector<HTMLTableRowElement>("thead tr"), this.data.headerHeight);
         table.querySelectorAll<HTMLTableRowElement>("tbody tr").forEach((tr, r) => setRowHeight(tr, this.data.heights[r] || 0));
@@ -427,8 +466,10 @@ export class TableView {
         this.pickerParts = null;
         this.chips = { text: null, fill: null, border: null };
         this.formatParts = null;
+        this.structureParts = null;
         this.widthInput = this.heightInput = null;
         root.classList.toggle("editing", options.editable);
+        root.classList.toggle("idle", this.idle && !this.fresh);
         paint(root, "background", "transparent");
         paint(root, "color", options.values.color);
         paint(root, "font-family", options.values.fontFamily);
@@ -457,71 +498,53 @@ export class TableView {
             this.columnElements.push(col);
             colgroup.appendChild(col);
         });
-        if (options.editable) {
-            const toolsCol = el("col");
-            paint(toolsCol, "width", `${TOOLS_WIDTH}px`);
-            colgroup.appendChild(toolsCol);
-        }
         table.appendChild(colgroup);
 
+        // Every cell holds its text in a span, which is what gives the cell its size. While
+        // authoring, a text box for typing and the strips for resizing are laid over the cell
+        // without taking any room, so the table measures the same as it will once published.
         const head = el("thead");
         const headRow = el("tr");
         paint(headRow, "background", headerFill || "transparent");
         data.columns.forEach((column, c) => {
             const th = el("th");
             th.dataset.column = String(c);
+            const shown = el("span", "show", this.shownText(column.name));
+            th.appendChild(shown);
             if (options.editable) {
-                const wrap = el("div", "headerCell");
                 const name = el("input", "header");
                 name.type = "text";
                 name.value = column.name;
                 name.setAttribute("aria-label", `Name of column ${c + 1}`);
-                // Clicking a header makes it the cell that fills and sizes apply to.
-                name.addEventListener("focus", () => this.setActive(HEADER_ROW, c));
-                name.addEventListener("change", () => {
-                    this.data.columns[c].name = name.value;
-                    this.commit();
+                // Clicking a header makes it the cell that formatting and sizes apply to.
+                name.addEventListener("focus", () => {
+                    this.styleEditing(name);
+                    this.setActive(HEADER_ROW, c);
+                });
+                name.addEventListener("blur", () => {
+                    if (name.value !== this.data.columns[c].name) {
+                        this.data.columns[c].name = name.value;
+                        this.commit();
+                    }
+                    shown.textContent = this.shownText(this.data.columns[c].name);
+                    this.paintHeader(th, c);
                 });
                 name.addEventListener("keydown", (event) => {
                     if (event.key === "Enter") {
                         event.preventDefault();
                         this.focusCell(0, c);
+                    } else if (event.key === "Escape") {
+                        name.value = this.data.columns[c].name;
+                        name.blur();
                     }
                 });
-                const type = el("button", "type", column.type === "number" ? "123" : "Abc");
-                type.type = "button";
-                type.title = column.type === "number"
-                    ? "Number column: formatted and totalled. Click to make it text."
-                    : "Text column. Click to make it a number column.";
-                type.addEventListener("click", () => {
-                    this.data.columns[c].type = column.type === "number" ? "text" : "number";
-                    this.commit(true);
-                });
-                const remove = el("button", "remove", "×");
-                remove.type = "button";
-                remove.title = "Delete this column";
-                remove.disabled = data.columns.length <= 1;
-                remove.addEventListener("click", () => {
-                    removeColumn(this.data, c);
-                    this.commit(true);
-                });
-                wrap.appendChild(name);
-                wrap.appendChild(type);
-                wrap.appendChild(remove);
-                th.appendChild(wrap);
+                th.appendChild(name);
                 th.appendChild(this.rowGrip(HEADER_ROW, th));
                 th.appendChild(this.columnGrip(c, th));
-            } else {
-                th.textContent = column.name;
             }
             this.paintHeader(th, c);
             headRow.appendChild(th);
         });
-        if (options.editable) {
-            const tools = el("th", "rowTools");
-            paint(tools, "background", headerFill || "transparent");
-            headRow.appendChild(tools);
-        }
         head.appendChild(headRow);
         table.appendChild(head);
 
@@ -532,28 +555,15 @@ export class TableView {
                 const td = el("td");
                 td.dataset.row = String(r);
                 td.dataset.column = String(c);
+                const shown = el("span", "show", this.shownText(displayCell(row[c] || "", column, options.numbers)));
+                td.appendChild(shown);
                 if (options.editable) {
-                    td.appendChild(this.buildCellInput(r, c));
+                    td.appendChild(this.buildCellInput(r, c, shown));
                     td.appendChild(this.rowGrip(r, td));
-                } else {
-                    td.textContent = displayCell(row[c] || "", column, options.numbers);
                 }
                 this.paintCell(td, r, c);
                 tr.appendChild(td);
             });
-            if (options.editable) {
-                const tools = el("td", "rowTools");
-                const remove = el("button", "remove", "×");
-                remove.type = "button";
-                remove.title = "Delete this row";
-                remove.disabled = data.rows.length <= 1;
-                remove.addEventListener("click", () => {
-                    removeRow(this.data, r);
-                    this.commit(true);
-                });
-                tools.appendChild(remove);
-                tr.appendChild(tools);
-            }
             body.appendChild(tr);
         });
         table.appendChild(body);
@@ -571,7 +581,6 @@ export class TableView {
                 this.totalCells.push(td);
                 tr.appendChild(td);
             });
-            if (options.editable) tr.appendChild(el("td", "rowTools"));
             foot.appendChild(tr);
             table.appendChild(foot);
             this.refreshTotals();
@@ -582,6 +591,7 @@ export class TableView {
         this.markActive();
         this.refreshSizeInputs();
         this.refreshFormatControls();
+        this.refreshStructureControls();
         this.placePicker();
         if (focus) this.focusCell(focus.row, focus.column);
     }
@@ -609,8 +619,40 @@ export class TableView {
             addColumn(this.data);
             this.commit(true);
         });
+        // Deleting, and a column's type, act on the selected cell's row and column. They live
+        // here, not in the table, so that the table itself has nothing extra in it.
+        const deleteRow = el("button", "add deleteRow", "− Row");
+        deleteRow.type = "button";
+        deleteRow.title = "Delete the selected cell's row";
+        deleteRow.addEventListener("click", () => {
+            if (!this.active || this.active.row === HEADER_ROW || this.data.rows.length <= 1) return;
+            removeRow(this.data, this.active.row);
+            this.active = { row: Math.min(this.active.row, this.data.rows.length - 1), column: this.active.column };
+            this.commit(true);
+        });
+        const deleteColumn = el("button", "add deleteColumn", "− Column");
+        deleteColumn.type = "button";
+        deleteColumn.title = "Delete the selected cell's column";
+        deleteColumn.addEventListener("click", () => {
+            if (!this.active || this.data.columns.length <= 1) return;
+            removeColumn(this.data, this.active.column);
+            this.active = { row: this.active.row, column: Math.min(this.active.column, this.data.columns.length - 1) };
+            this.commit(true);
+        });
+        const type = el("button", "add type", "Abc");
+        type.type = "button";
+        type.addEventListener("click", () => {
+            if (!this.active) return;
+            const column = this.data.columns[this.active.column];
+            column.type = column.type === "number" ? "text" : "number";
+            this.commit(true);
+        });
         bar.appendChild(rowButton);
+        bar.appendChild(deleteRow);
         bar.appendChild(columnButton);
+        bar.appendChild(deleteColumn);
+        bar.appendChild(type);
+        this.structureParts = { deleteRow, deleteColumn, type };
 
         // ---- What formatting applies to: the selected cell, its row or its column.
         const scopeGroup = el("div", "group");
@@ -676,6 +718,30 @@ export class TableView {
         });
         bar.appendChild(textGroup);
 
+        // ---- Alignment: left, centre, right. Pressing the one that is already on takes it off again.
+        const alignGroup = el("div", "group");
+        const aligns = {} as { [key in CellAlign]: HTMLButtonElement };
+        const alignNames: { [key in CellAlign]: string } = { left: "Align left", center: "Align centre", right: "Align right" };
+        ALIGNS.forEach((align) => {
+            const button = el("button", `align ${align}`);
+            button.type = "button";
+            button.title = `${alignNames[align]}: for the selected cell, row or column. Press it again to go back to the Format pane's alignment.`;
+            button.setAttribute("aria-label", alignNames[align]);
+            // Three lines of text, drawn ragged on the side away from the alignment.
+            [12, 7, 10].forEach((length) => {
+                const line = el("span", "line");
+                paint(line, "width", `${length}px`);
+                button.appendChild(line);
+            });
+            button.addEventListener("click", () => {
+                const own = this.active ? formatAt(this.data, this.active.row, this.active.column) : undefined;
+                this.setFormat({ align: own && own.align === align ? undefined : align });
+            });
+            aligns[align] = button;
+            alignGroup.appendChild(button);
+        });
+        bar.appendChild(alignGroup);
+
         // ---- Colour: one button each for text, fill and border. The chip shows the colour last applied.
         const colourGroup = el("div", "group");
         const titles: { [mode in ColourMode]: string } = {
@@ -697,7 +763,7 @@ export class TableView {
         });
         const clear = el("button", "add clear", "Clear");
         clear.type = "button";
-        clear.title = "Clear text formatting: removes the font, size, bold, italic, underline and text colour set on the selected cell, row or column. Fills and borders stay.";
+        clear.title = "Clear text formatting: removes the font, size, bold, italic, underline, alignment and text colour set on the selected cell, row or column. Fills and borders stay.";
         clear.addEventListener("click", () => {
             const range = this.range();
             if (!range) return;
@@ -706,7 +772,7 @@ export class TableView {
         });
         colourGroup.appendChild(clear);
         bar.appendChild(colourGroup);
-        this.formatParts = { font, size, clear, toggles };
+        this.formatParts = { font, size, clear, toggles, aligns };
 
         // ---- Size: exact width of the selected cell's column and height of its row, in pixels.
         const sizeGroup = el("div", "group");
@@ -783,6 +849,30 @@ export class TableView {
             parts.toggles[key].classList.toggle("on", on);
             parts.toggles[key].setAttribute("aria-pressed", on ? "true" : "false");
         });
+        // The alignment the cell is drawn with, whether set on it or worked out (numbers right, text left).
+        const drawn = active && text ? this.alignFor(text, this.data.columns[active.column]) : "";
+        ALIGNS.forEach((align) => {
+            parts.aligns[align].disabled = !active;
+            parts.aligns[align].classList.toggle("on", drawn === align);
+            parts.aligns[align].setAttribute("aria-pressed", drawn === align ? "true" : "false");
+        });
+    }
+
+    /** Sets the delete buttons and the column-type button for the active cell. */
+    private refreshStructureControls(): void {
+        const parts = this.structureParts;
+        if (!parts) return;
+        const active = this.active;
+        parts.deleteRow.disabled = !active || active.row === HEADER_ROW || this.data.rows.length <= 1;
+        parts.deleteColumn.disabled = !active || this.data.columns.length <= 1;
+        parts.type.disabled = !active;
+        const isNumber = !!active && this.data.columns[active.column].type === "number";
+        parts.type.textContent = isNumber ? "123" : "Abc";
+        parts.type.title = !active
+            ? "Column type: click a cell first"
+            : isNumber
+                ? "The selected cell's column holds numbers: formatted and totalled. Click to make it text."
+                : "The selected cell's column holds text. Click to make it a number column.";
     }
 
     /** A small number box in the toolbar for typing an exact size. Blank or 0 means automatic. */
@@ -1111,6 +1201,7 @@ export class TableView {
         this.markActive();
         this.refreshSizeInputs();
         this.refreshFormatControls();
+        this.refreshStructureControls();
     }
 
     /** Outlines the active cell (body or header) so it is clear where a fill or size will go. */
@@ -1123,7 +1214,8 @@ export class TableView {
 
     // ------------------------------------------------------------------ cells
 
-    private buildCellInput(r: number, c: number): HTMLInputElement {
+    /** The text box laid over a cell for typing into. `shown` is the cell's own text, which it keeps in step. */
+    private buildCellInput(r: number, c: number, shown: HTMLSpanElement): HTMLInputElement {
         const options = this.options!;
         const column = this.data.columns[c];
         const input = el("input", "cell");
@@ -1150,6 +1242,7 @@ export class TableView {
                 this.commit();
             }
             input.value = displayCell(this.data.rows[r][c] || "", column, options.numbers);
+            shown.textContent = this.shownText(input.value);
             const td = input.parentElement as HTMLTableCellElement | null;
             if (td) this.paintCell(td, r, c);
         });

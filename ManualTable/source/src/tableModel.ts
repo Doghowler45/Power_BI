@@ -20,7 +20,11 @@ export interface CellFormat {
     italic?: boolean;
     underline?: boolean;
     color?: string;
+    align?: CellAlign;
 }
+
+/** Where a cell's text sits across the cell. */
+export type CellAlign = "left" | "center" | "right";
 
 /** The sides of a cell: top, right, bottom, left. */
 export type Side = "t" | "r" | "b" | "l";
@@ -167,6 +171,7 @@ export function cleanFormat(raw: unknown): CellFormat {
     if (typeof saved.italic === "boolean") format.italic = saved.italic;
     if (typeof saved.underline === "boolean") format.underline = saved.underline;
     if (isColour(saved.color)) format.color = saved.color;
+    if (saved.align === "left" || saved.align === "center" || saved.align === "right") format.align = saved.align;
     return format;
 }
 

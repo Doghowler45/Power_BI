@@ -12,12 +12,22 @@ A Power BI custom visual that works like a table you type into yourself. It need
 
 Only people who can edit the report can ever change the table. Viewers see plain, read-only text with no boxes or buttons.
 
+## What you see is what is published
+
+While you build the report, the table is drawn exactly as it will be for viewers: the same column widths, row heights, fonts and positions. There are no boxes round the cells and no extra buttons in the table.
+
+- **The toolbar appears when you click into the table** and goes away when you click somewhere else in the report. While it is out it pushes the table down; the cells themselves stay the same size. With the toolbar away, what you see is what viewers get, so that is the moment to size the visual on the page.
+- A new table with nothing typed in it yet keeps its toolbar out, so it is clear it can be typed into.
+- The cell under the pointer gets a thin dashed outline, and the selected cell a green one, while you are working. Neither is shown to viewers.
+- The cell you are typing in turns into a plain white box showing exactly what you typed (a number without its formatting, for instance). It goes back to its own look when you leave it.
+- An empty cell still takes up a line, so an empty row is as tall as the others and can be used as a spacer.
+
 ## Using it
 
 - Click a cell and type. Press **Enter** or the down arrow to move down; **Enter** on the last row adds a new row. **Esc** abandons what you typed in that cell.
 - Click a column heading to rename it.
-- **+ Row** and **+ Column** add to the table; the small **×** buttons delete a row or a column.
-- The **Abc / 123** button on each column switches it between text and numbers. Number columns are right-aligned, formatted and included in the totals row.
+- **+ Row** and **+ Column** add to the table. **− Row** and **− Column** delete the row and the column of the cell you last clicked.
+- The **Abc / 123** button switches the selected cell's column between text and numbers, and shows which it is. Number columns are right-aligned, formatted and included in the totals row.
 - Paste a block copied from Excel into any cell and it fills across and down from there, adding rows and columns if needed.
 - Numbers can be typed as `1250`, `1,250`, `$1,250.50`, `(300)` or `-300`. Text typed into a number column is kept as it is and left out of the total.
 - Power BI's own undo (Ctrl+Z) steps back through your edits.
@@ -39,9 +49,13 @@ There are two places to format the table, and they work together.
 - **Font list:** pick a font. **Table font** goes back to the one set in the Format pane.
 - **Size box:** type a size in points and press Enter. Leave it blank to go back to the Format pane's size, which is shown greyed in the box.
 - **B**, **I** and **U** switch bold, italic and underline on or off. A button is dark when the selected cell has that style, whether from the toolbar or the Format pane.
-- **Clear** removes all text formatting set from the toolbar (font, size, bold, italic, underline and text colour) from the selection. Fills and borders stay.
+- **Clear** removes all text formatting set from the toolbar (font, size, bold, italic, underline, alignment and text colour) from the selection. Fills and borders stay.
 
 The fonts offered are the ones Power BI itself offers, so they show the same for everyone who views the report.
+
+### Alignment
+
+The three alignment buttons put the text of the selected cell, row or column on the **left**, in the **centre** or on the **right**. The dark button is how the selected cell is aligned now. Press the dark button again to take the alignment off, and the cell goes back to the Format pane's setting, which by default puts text on the left and numbers on the right.
 
 ### Text colour, fill and borders
 

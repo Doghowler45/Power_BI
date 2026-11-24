@@ -186,6 +186,50 @@
         }
     }
 
+    // Align left, centre and right: three lines of "text", ragged on the far side.
+    button.align {
+        display: flex;
+        flex: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px;
+        box-sizing: border-box;
+        width: 22px;
+        height: 19px;
+        padding: 0 4px;
+
+        .line {
+            display: block;
+            height: 2px;
+            background: currentColor;
+        }
+
+        &.left {
+            align-items: flex-start;
+        }
+
+        &.center {
+            align-items: center;
+        }
+
+        &.right {
+            align-items: flex-end;
+        }
+
+        &.on,
+        &.on:hover:not(:disabled) {
+            color: #ffffff;
+            background: #1c1c1b;
+            border-color: #1c1c1b;
+        }
+    }
+
+    // The column-type button reads Abc or 123.
+    button.type {
+        min-width: 34px;
+        font-variant-numeric: tabular-nums;
+    }
+
     button.swatch {
         flex: none;
         width: 17px;
@@ -453,41 +497,40 @@
 
     /* ---------- authoring mode: table ---------- */
 
-    button.type,
-    button.remove {
-        flex: none;
-        padding: 0 4px;
-        font-size: 9px;
-        line-height: 15px;
-        min-width: 17px;
-        opacity: 0.55;
-    }
-
-    tr:hover button.remove,
-    th:hover button,
-    button:focus {
-        opacity: 1;
-    }
-
+    // While authoring, the table is laid out exactly as it is once published: nothing below
+    // adds to a cell's size. The text box, the resize strips and the outlines all lie over the cell.
     &.editing {
         th,
         td {
             position: relative;
-            padding: 2px 3px;
         }
 
-        th.rowTools,
-        td.rowTools {
-            padding: 0 2px;
-            text-align: center;
-            border-bottom-color: transparent;
+        // What the pointer is over can be typed into.
+        td:hover,
+        th:hover {
+            outline: 1px dashed rgba(128, 134, 126, 0.75);
+            outline-offset: -1px;
         }
 
-        // The cell a fill or size will be applied to.
+        // The cell that formatting and sizes will be applied to.
         td.active,
         th.active {
             outline: 2px dashed #57b133;
             outline-offset: -2px;
+        }
+    }
+
+    // Not being worked on: the toolbar and picker are put away, so the table sits where it
+    // will once published.
+    &.idle {
+        .toolbar,
+        .picker {
+            display: none;
+        }
+
+        td.active,
+        th.active {
+            outline: none;
         }
     }
 
@@ -533,37 +576,32 @@
         user-select: none;
     }
 
-    .headerCell {
-        display: flex;
-        align-items: center;
-        gap: 3px;
-    }
-
+    // The text box for typing lies over the whole cell and is see-through until it is typed
+    // in, so the cell underneath is what is seen, and what sets the cell's size.
     input.cell,
     input.header {
+        position: absolute;
+        top: 0;
+        left: 0;
         box-sizing: border-box;
         width: 100%;
-        min-width: 20px;
+        height: 100%;
+        min-width: 0;
         margin: 0;
-        padding: 5px;
+        padding: 5px 8px;
         font: inherit;
         color: inherit;
         text-align: inherit;
         background: transparent;
-        border: 1px dashed rgba(128, 134, 126, 0.45);
-        border-radius: 2px;
-
-        &:hover {
-            border-color: rgba(128, 134, 126, 0.9);
-        }
+        border: none;
+        border-radius: 0;
+        opacity: 0;
+        cursor: text;
 
         &:focus {
-            outline: none;
-            border: 1px solid #57b133;
+            opacity: 1;
+            outline: 2px solid #57b133;
+            outline-offset: -2px;
         }
-    }
-
-    input.header {
-        font-weight: 600;
     }
 }

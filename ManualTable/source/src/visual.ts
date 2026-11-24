@@ -101,6 +101,8 @@ export class Visual implements IVisual {
             // Rebuild only when the data, the mode or the formatting actually changed. Power BI calls
             // update after every save, and rebuilding then would take the cursor out of the cell being typed in.
             const shown = this.data || (editable ? starterTable() : emptyTable());
+            // Until something has been typed, the toolbar stays out so it is clear the table can be worked on.
+            this.view.setFresh(editable && this.data === null);
             const key = JSON.stringify([this.currentJson, viewOptions]);
             if (key !== this.renderedKey) {
                 this.view.render(shown, viewOptions, (changed) => this.save(changed, viewOptions));

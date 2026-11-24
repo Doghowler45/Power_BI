@@ -4,7 +4,7 @@
         "displayName": "Manual Table",
         "guid": "manualTable22AB8E2375EC4765A54DC12844106035",
         "visualClassName": "Visual",
-        "version": "1.8.0.0",
+        "version": "1.9.0.0",
         "description": "A table you type numbers and text into yourself while building the report. What you type is saved with the report, and people viewing the published report see it read-only. No data fields are needed.",
         "supportUrl": "https://example.com/support",
         "gitHubUrl": ""
