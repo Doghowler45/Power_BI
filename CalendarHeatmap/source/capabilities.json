@@ -53,8 +53,41 @@
                             {
                                 "value": "purple",
                                 "displayName": "Purple"
+                            },
+                            {
+                                "value": "pink",
+                                "displayName": "Pink"
+                            },
+                            {
+                                "value": "red",
+                                "displayName": "Red"
+                            },
+                            {
+                                "value": "orange",
+                                "displayName": "Orange"
+                            },
+                            {
+                                "value": "amber",
+                                "displayName": "Amber"
+                            },
+                            {
+                                "value": "grey",
+                                "displayName": "Grey"
+                            },
+                            {
+                                "value": "custom",
+                                "displayName": "Custom"
                             }
                         ]
+                    }
+                },
+                "custom": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
                     }
                 },
                 "scope": {

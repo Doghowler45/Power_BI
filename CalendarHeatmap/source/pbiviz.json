@@ -4,7 +4,7 @@
         "displayName": "Calendar Heatmap",
         "guid": "calendarHeatmapB2D65C96DD4F78CF062C663AC3AB05F5",
         "visualClassName": "Visual",
-        "version": "1.0.0.0",
+        "version": "1.1.0.0",
         "description": "A calendar of months: one row for each year and one cell for each month, coloured by a measure, with each year's total and its change on the year before.",
         "supportUrl": "https://example.com/support",
         "gitHubUrl": ""

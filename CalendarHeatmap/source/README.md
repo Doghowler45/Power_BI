@@ -19,6 +19,16 @@ Use the date column itself, not its hierarchy: in the Build pane, open the Date 
 - **Legend:** a bar showing the scale, when there is room under the grid. Hover over a cell and a marker shows where it sits.
 - **Hover** for the month's value and its change on the same month a year earlier. **Click** a cell to filter the other visuals on the page by that month.
 
+## Choosing the colour
+
+Under *Format > Colours > Colour*, pick one of the named colours (Green, Teal, Blue, Purple, Pink, Red, Orange, Amber, Grey) or **Custom**. With Custom, a **Custom colour** picker appears below it: choose any colour there, including one from your report theme.
+
+Whichever you choose, you pick one colour and the visual makes the scale: seven shades of it, from pale to deep, stepped so that equal steps in the data look like equal steps in colour. A custom colour is put through the same recipe as the named ones, so the scale always runs light to dark and bigger always reads as darker.
+
+- The scale takes the *hue* of the colour you pick, not its exact shade. A pale pink and a strong pink give much the same scale, a little softer for the pale one.
+- A grey, black or white gives a grey scale.
+- Red is on the list because some reports need it, but most readers take red to mean "bad". For a measure where more is good, another colour is safer.
+
 ## Things to know
 
 - **Financial years:** set *Format > Calendar > Year starts in month* (7 for a year that runs July to June). The rows are then named 2025/26 and the columns start at that month.
@@ -29,7 +39,7 @@ Use the date column itself, not its hierarchy: in the Build pane, open the Date 
 ## Format pane
 
 - **Calendar:** the month the year starts in, latest year at the top, year totals and change.
-- **Colours:** green, teal, blue or purple; compare within all months or each year.
+- **Colours:** a named colour or a custom one (see below); compare within all months or each year.
 - **Values in cells:** on or off, text size, display units, decimal places.
 
 ## Rebuilding

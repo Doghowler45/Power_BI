@@ -14,6 +14,7 @@ import DataView = powerbi.DataView;
 import { VisualFormattingSettingsModel } from "./settings";
 import { buildCalendar, CalendarView, cellKey, DatedValue } from "./view";
 import { RAMPS } from "./common/colours";
+import { NAMED_COLOURS, rampFrom } from "./ramp";
 import { chooseUnit, clampDecimals, DEFAULT_FORMAT, fullFormatter, makeFormatters } from "./common/format";
 import { Interaction, TooltipItem } from "./common/interaction";
 
@@ -67,10 +68,17 @@ export class Visual implements IVisual {
             const formatters = makeFormatters(data.format, chooseUnit(data.format, cells, String(s.labels.units.value?.value ?? "auto")), clampDecimals(s.labels.decimals.value), this.host.locale);
             const full = fullFormatter(data.format);
 
+            // The scale of shades: a named colour, or one made from the colour picked under Custom.
+            const hue = String(s.colours.hue.value?.value ?? "green");
+            const picked = s.colours.custom.value && typeof s.colours.custom.value.value === "string" ? s.colours.custom.value.value : "";
+            const ramp = (hue === "custom" ? rampFrom(picked) : RAMPS[hue] || rampFrom(NAMED_COLOURS[hue] || "")) || RAMPS.green;
+            // The colour picker is only offered while Colour is set to Custom.
+            s.colours.custom.visible = hue === "custom";
+
             this.view.render(calendar, {
                 width: options.viewport.width,
                 height: options.viewport.height,
-                ramp: RAMPS[String(s.colours.hue.value?.value ?? "green")] || RAMPS.green,
+                ramp,
                 perYear: String(s.colours.scope.value?.value) === "year",
                 newestFirst: s.calendar.newestFirst.value,
                 showTotals: s.calendar.totals.value,

@@ -40,7 +40,7 @@ Click a visual's name for its guide: its fields, its Format pane options and the
 | Visual | Version | What it does | File |
 | --- | --- | --- | --- |
 | [Seasonal Chart](SeasonalChart/source/README.md) | 1.0.0.0 | A month-by-month chart with one line for each year: the latest year stands out against the earlier ones, with their range behind it, as monthly values or as a running total. | [Download](SeasonalChart/SeasonalChart.pbiviz) |
-| [Calendar Heatmap](CalendarHeatmap/source/README.md) | 1.0.0.0 | A calendar of months: one row for each year and one cell for each month, coloured by a measure, with each year's total and its change on the year before. | [Download](CalendarHeatmap/CalendarHeatmap.pbiviz) |
+| [Calendar Heatmap](CalendarHeatmap/source/README.md) | 1.1.0.0 | A calendar of months: one row for each year and one cell for each month, coloured by a measure, with each year's total and its change on the year before. | [Download](CalendarHeatmap/CalendarHeatmap.pbiviz) |
 | [Heatmap](Heatmap/source/README.md) | 1.0.0.0 | A heatmap: a grid of rounded cells coloured by a measure, with single-hue or two-sided colour scales, values in the cells, a scale legend and hover highlighting. | [Download](Heatmap/Heatmap.pbiviz) |
 
 ### Maps, tables and navigation

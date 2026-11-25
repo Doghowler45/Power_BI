@@ -1,7 +1,7 @@
 {
     "name": "calendar-heatmap",
     "description": "Power BI custom visual: A calendar of months: one row for each year and one cell for each month, coloured by a measure, with each year's total and its change on the year before.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "private": true,
     "license": "MIT",
     "scripts": {

@@ -13,6 +13,12 @@ export const HUE_ITEMS: powerbi.IEnumMember[] = [
     { value: "teal", displayName: "Teal" },
     { value: "blue", displayName: "Blue" },
     { value: "purple", displayName: "Purple" },
+    { value: "pink", displayName: "Pink" },
+    { value: "red", displayName: "Red" },
+    { value: "orange", displayName: "Orange" },
+    { value: "amber", displayName: "Amber" },
+    { value: "grey", displayName: "Grey" },
+    { value: "custom", displayName: "Custom" },
 ];
 
 export const SCOPE_ITEMS: powerbi.IEnumMember[] = [
@@ -31,12 +37,13 @@ class CalendarCard extends SimpleCard {
 }
 
 class ColoursCard extends SimpleCard {
-    hue = new formattingSettings.ItemDropdown({ name: "hue", displayName: "Colour", items: HUE_ITEMS, value: HUE_ITEMS[0] });
+    hue = new formattingSettings.ItemDropdown({ name: "hue", displayName: "Colour", description: "The cells run from a light shade of this colour to a dark one. Choose Custom to pick any colour.", items: HUE_ITEMS, value: HUE_ITEMS[0] });
+    custom = new formattingSettings.ColorPicker({ name: "custom", displayName: "Custom colour", description: "Any colour. The visual makes the light-to-dark shades from it, the same way as for the named colours.", value: { value: "#57B133" } });
     scope = new formattingSettings.ItemDropdown({ name: "scope", displayName: "Compare within", description: "All months: one scale, so growth from year to year shows as darker rows. Each year: every year has its own scale, which shows the seasonal shape even when the years differ in size.", items: SCOPE_ITEMS, value: SCOPE_ITEMS[0] });
 
     name: string = "colours";
     displayName: string = "Colours";
-    slices: Array<Slice> = [this.hue, this.scope];
+    slices: Array<Slice> = [this.hue, this.custom, this.scope];
 }
 
 class LabelsCard extends SimpleCard {
